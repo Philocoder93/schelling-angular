@@ -17,10 +17,13 @@
   </head>
   <body>
     <header data-ng-controller="navCrtl as navVM">
+      <div>
+        <span>schelling_segregation_model</span>
+      </div>
       <ul>
-        <li data-ng-hide="navVM.state.current.url=='/welcome'" data-ui-sref="welcome"><a>Welcome!</a></li>
-        <li data-ng-hide="navVM.state.current.url=='/about'" data-ui-sref="about"><a>About The Model</a></li>
-        <li data-ng-hide="navVM.state.current.url=='/game'" data-ui-sref="game"><a>The Model</a></li>
+        <li data-ui-sref="welcome"><a>Welcome</a></li>
+        <li data-ui-sref="about"><a>About</a></li>
+        <li data-ui-sref="game"><a>Model</a></li>
       </ul>
     </header>
     <main data-ui-view>

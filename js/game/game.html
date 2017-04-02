@@ -1,9 +1,17 @@
-<button>
-</button>
-<div ng-repeat="row in gameVM.board track by $index">
-  <div ng-repeat="space in row track by $index">
-    <div class="ng-class: space">
-      this is some content
+<div class="buttonWrapper">
+  <button ng-click="gameVM.traverseBoard(gameVM.board, gameVM.path)">
+    New Move
+  </button>
+  <button ng-click="gameVM.aThousandRuns()">
+    1000 Moves
+  </button>
+  <button ng-click="gameVM.newBoard()">
+    New Board
+  </button>
+</div>
+<div class="container">
+  <div class="row" ng-repeat="row in gameVM.board track by $index">
+    <div ng-repeat="space in row track by $index" class="ng-class: space">
     </div>
-  <div>
+  </div>
 </div>

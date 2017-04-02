@@ -3,20 +3,25 @@
   angular
   .module('game')
   .controller('gameCrtl',[
+    "$interval",
     gameCrtlFunction
   ])
 
-  function gameCrtlFunction() {
+  function gameCrtlFunction($interval) {
+
     this.generateBoard = function(size){
       let out = []
       for (let i=0;i<size;i++) {
         out.push(new Array(size))
         let die = Math.random().toString().split("")
         for (let j=0;j<size;j++) {
-          if (die.join("")<0.33) {
+          if (die.length < 5) {
+            die = Math.random().toString().split("")
+          }
+          if (die.join("")<0.425) {
             out[i][j] = "red"
           }
-          else if (die.join("")<0.66) {
+          else if (die.join("")<0.85) {
             out[i][j] = "blue"
           }
           else {
@@ -50,6 +55,9 @@
       return out
     }
 
+    this.board = this.generateBoard(50)
+    this.path = this.shuffleArray(this.generatePath(50))
+
     this.traverseBoard = function(Board, Path){
       let unsatisfied = []
       let openWhites = []
@@ -57,12 +65,12 @@
         let x = Path[i][0]
         let y = Path[i][1]
         if (Board[x][y] == "blue") {
-          if (checkForSatisfaction(Board, x, y, "blue")) {
+          if (this.checkForSatisfaction(Board, x, y, "red")) {
             unsatisfied.push([x,y])
           }
         }
         else if (Board[x][y] == "red") {
-          if (checkForSatisfaction(Board, x, y, "red")) {
+          if (this.checkForSatisfaction(Board, x, y, "blue")) {
             unsatisfied.push([x,y])
           }
         }
@@ -70,6 +78,7 @@
           openWhites.push([x,y])
         }
       }
+      console.log('firing')
       this.switch(Board, unsatisfied, openWhites)
     }
 
@@ -84,14 +93,14 @@
         longer = openWhites
         shorter = unsatisfied
       }
-      for (let i=0;i<shorter.length;i++;) {
+      shorter = this.shuffleArray(shorter)
+      longer = this.shuffleArray(longer)
+      for (let i=0;i<shorter.length;i++) {
         var thirdShell = Board[longer[i][0]][longer[i][1]]
         Board[longer[i][0]][longer[i][1]] = Board[shorter[i][0]][shorter[i][1]]
         Board[shorter[i][0]][shorter[i][1]] = thirdShell
       }
     }
-
-    this.color = "blue"
 
     this.checkForSatisfaction = function(Board, x, y, Color) {
       var adjacent = 0
@@ -101,7 +110,7 @@
             adjacent ++
           }
         }
-        catch (e) {console.log(e)}
+        catch (e) {}
       }
       checkCell(Board, x+1, y+1, Color)
       checkCell(Board, x+1, y, Color)
@@ -111,22 +120,20 @@
       checkCell(Board, x-1, y, Color)
       checkCell(Board, x-1, y+1, Color)
       checkCell(Board, x, y+1, Color)
-      if (adjacent > 0) {
+      if (adjacent >= 3) {
         return true
       }
       else {
         return false
       }
     }
-
-
-
-    this.board = this.generateBoard(10)
-    this.path = this.shuffleArray(this.generatePath(10))
-
-    this.move = function() {
-      this.traverseBoard()
+    this.aThousandRuns = function() {
+      var that = this
+      $interval(function() {that.traverseBoard(that.board, that.path)}, 300, 1000)
     }
-
+    this.newBoard = function() {
+      this.board = this.generateBoard(50)
+      this.path = this.shuffleArray(this.generatePath(50))
+    }
   }
 }())

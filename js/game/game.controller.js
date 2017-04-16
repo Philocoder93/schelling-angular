@@ -54,7 +54,7 @@
       }
       return out
     }
-
+    this.timer = 0
     this.board = this.generateBoard(50)
     this.path = this.shuffleArray(this.generatePath(50))
 
@@ -128,10 +128,24 @@
       }
     }
     this.aThousandRuns = function() {
+      if (angular.isDefined(this.timer)) {
+        $interval.cancel(this.timer);
+        console.log("canceled")
+      }
       var that = this
-      $interval(function() {that.traverseBoard(that.board, that.path)}, 300, 1000)
+      that.timer = $interval(function() {that.traverseBoard(that.board, that.path)}, 300, 1000)
+    }
+    this.stop = function() {
+      if (angular.isDefined(this.timer)) {
+        $interval.cancel(this.timer);
+        console.log("canceled")
+      }
     }
     this.newBoard = function() {
+      if (angular.isDefined(this.timer)) {
+        $interval.cancel(this.timer);
+        console.log("canceled")
+      }
       this.board = this.generateBoard(50)
       this.path = this.shuffleArray(this.generatePath(50))
     }

@@ -8,6 +8,9 @@
   <button ng-click="gameVM.newBoard()">
     New Board
   </button>
+  <button ng-click="gameVM.stop()">
+    Stop
+  </button>
 </div>
 <div class="container">
   <div class="row" ng-repeat="row in gameVM.board track by $index">

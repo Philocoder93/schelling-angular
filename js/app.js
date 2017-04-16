@@ -17,12 +17,6 @@
 
   function RouterFunction($stateProvider) {
     $stateProvider
-    .state('welcome', {
-      url: '/welcome',
-      templateUrl: 'js/game/welcome.html',
-      controller: 'welcomeCrtl',
-      controllerAs: 'welcomeVM'
-    })
     .state('about', {
       url: '/about',
       templateUrl: 'js/game/about.html',
@@ -38,6 +32,6 @@
   }
 
   function ReRouterFunction($urlRouterProvider) {
-    $urlRouterProvider.otherwise('/welcome')
+    $urlRouterProvider.otherwise('/game')
   }
 }())
